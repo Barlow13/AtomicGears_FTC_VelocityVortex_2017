@@ -12,6 +12,8 @@ import com.qualcomm.robotcore.hardware.AnalogInput;
 
 public class Range extends LinearOpMode {
 
+  // this is a custom wrote code showing how to take an analog ultrasonic
+  //sensor and using simple math to take a voltage reading and turn it into inches
 
     /*
      * Main loop

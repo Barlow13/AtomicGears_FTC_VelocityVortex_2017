@@ -9,23 +9,18 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 /**
- * Created by Owner on 9/17/2016.
+ * Created by Brady Barlow on 9/17/2016.
  */
 
-@TeleOp(name="CyberStorm", group="Test")
+@TeleOp(name="Test_Teleop", group="Test")
 @Disabled
 
+//This is just a simple two motor drive we use for helping rookie teams
 
-public class Test extends OpMode {
+public class TestDrive extends OpMode {
 
     DcMotor Left;
     DcMotor Right;
-    DcMotor Intake;
-    DcMotor Shoot1;
-    DcMotor Shoot2;
-    DcMotor lift;
-    Servo cap;
-    Servo ball;
 
 
     @Override
@@ -33,37 +28,13 @@ public class Test extends OpMode {
 
         Left = hardwareMap.dcMotor.get("L");
         Right = hardwareMap.dcMotor.get("R");
-        Intake = hardwareMap.dcMotor.get("I");
-        Shoot1 = hardwareMap.dcMotor.get("s1");
-        Shoot2 = hardwareMap.dcMotor.get("s2");
-        lift = hardwareMap.dcMotor.get("lift");
-        ball = hardwareMap.servo.get("ball");
-        cap = hardwareMap.servo.get("cap");
     }
 
     @Override
     public void loop() {
-        if (gamepad1.left_bumper) {
-            Intake.setPower(-1);
-        } else if (gamepad1.right_bumper) {
-            Intake.setPower(1);
-        } else {
-            Intake.setPower(0);
-        }
-        if (gamepad1.a) {
-            ball.setPosition(1);
-        } else {
-            ball.setPosition(0);
-        }
 
-        if (gamepad2.a) {
-            cap.setPosition(1);
-        }
-        else {cap.setPosition(0);}
-
-
-        float shoot = gamepad1.left_trigger;
-        float capball = -gamepad2.right_stick_y;
+        //this is a formula to drive foward and reverse with the
+        //left joystick and turn left and right with the right joystick
 
         float left  = gamepad1.left_stick_y - gamepad1.right_stick_x;
         float right = gamepad1.left_stick_y +gamepad1.right_stick_x;
@@ -72,9 +43,6 @@ public class Test extends OpMode {
         right = (float) scaleInput(right);
         Left.setPower(left);
         Right.setPower(-right);
-        Shoot1.setPower(shoot);
-        Shoot2.setPower(-shoot);
-        lift.setPower(capball);
 
     }
 

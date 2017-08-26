@@ -9,6 +9,8 @@ import com.qualcomm.robotcore.util.Range;
 
 @TeleOp(name = "AtomicGears", group = "test")
 
+//This is our main teleop drive code
+
 public class AtomicGears extends OpMode {
 
     DcMotor motorFrontRight;
@@ -54,6 +56,7 @@ public class AtomicGears extends OpMode {
     public void loop() {
 
 
+        //this is the primary driver buttons and functions
 
         if(gamepad1.left_bumper)  {intake.setPower(1);}
         else if(gamepad1.right_bumper){intake.setPower(-1);}
@@ -63,10 +66,11 @@ public class AtomicGears extends OpMode {
         else if(gamepad1.y){lift.setPower(-1);}
         else {lift.setPower(0);}
 
-
         if(gamepad1.a)  {shooter.setPower(1);}
         else if(gamepad1.b){shooter.setPower(-1);}
         else {shooter.setPower(0);}
+
+        //this is the second drivers button to control the lights
 
         if(gamepad2.a) {
             led.setPower(1);
@@ -74,10 +78,6 @@ public class AtomicGears extends OpMode {
         if (gamepad2.b){
             led.setPower(0);
         }
-
-
-
-
 
         /* right stick X controls rotation */
 
@@ -100,13 +100,11 @@ public class AtomicGears extends OpMode {
         BackRight = Range.clip(BackRight, -1, 1);
         gamepad2RightY = Range.clip(gamepad2RightY, -1,1);
 
-
         FrontLeft = (float) scaleInput(FrontLeft);
         FrontRight = (float) scaleInput(FrontRight);
         BackLeft = (float) scaleInput(BackLeft);
         BackRight =  (float) scaleInput(BackRight);
         gamepad2RightY= (float) scaleInput(gamepad2RightY);
-        
 
         // write the values to the motors
         motorFrontRight.setPower(FrontRight);
@@ -114,7 +112,6 @@ public class AtomicGears extends OpMode {
         motorBackLeft.setPower(BackLeft);
         motorBackRight.setPower(BackRight);
         cap.setPower(gamepad2RightY);
-
 
 		/*
 		 * Telemetry for debugging
@@ -130,7 +127,6 @@ public class AtomicGears extends OpMode {
         telemetry.addData("Lift",lift.getPower());
         telemetry.addData("Shooter",shooter.getPower());
         telemetry.addData("Line", LineSensor.getLightDetected());
-
     }
 
     @Override
@@ -141,7 +137,8 @@ public class AtomicGears extends OpMode {
     /*
      * This method scales the joystick input so for low joystick values, the
      * scaled value is less than linear.  This is to make it easier to drive
-     * the robot more precisely at slower speeds.
+     * the robot more precisely at slower speeds. We borrowed this from team 4962 Rockettes github.
+     * thank you for sharing!
      */
     double scaleInput(double dVal)  {
         double[] scaleArray = { 0.0, 0.05, 0.09, 0.10, 0.12, 0.15, 0.18, 0.24,

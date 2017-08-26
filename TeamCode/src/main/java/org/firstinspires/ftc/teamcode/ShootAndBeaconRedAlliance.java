@@ -13,16 +13,17 @@ import com.qualcomm.robotcore.hardware.I2cDeviceSynchImpl;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-
-@Autonomous(name="2ball2BlueBeacon", group="Auto")
-
+import static org.firstinspires.ftc.teamcode.ShootAndBeaconBlueAlliance.State.fortyone;
 
 
-
+@Autonomous(name="2ball2BeaconRedAlliance", group="Auto")
 
 
 
-public class ShootAndBlueBeacon extends OpMode {
+//custom state machine to make the robot decide what its action will be during auto
+
+
+public class ShootAndBeaconRedAlliance extends OpMode {
 
     DcMotor motorFrontRight;
     DcMotor motorFrontLeft;
@@ -59,8 +60,8 @@ public class ShootAndBlueBeacon extends OpMode {
     enum State {
         one, two, three, four, five, six, seven, eight, nine, ten,
         eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty,
-        twentyone, twentytwo, twentythree, twentyfour, twentyfive, twentysix,twentyseven,twentyeight,twentynine,thirty,thirtyone,thirtytwo,thirtythree,thrirtyfour,thirtyfive,thirtysix,thirtyseven,thirtyeight,thirtynine,forty,
-    fortyone,fortytwo,fourtyfour,fourtyfive}
+        twentyone, twentytwo, twentythree, twentyfour, twentyfive, twentysix,twentyseven,twentyeight,twentynine,thirty,thirtyone,thirtytwo,thirtythree,thrirtyfour,thirtyfive,thirtysix,thirtyseven,thirtyeight,thirtynine,forty, fortyone
+    }
 
 
     State state;
@@ -160,21 +161,21 @@ public class ShootAndBlueBeacon extends OpMode {
 
             case two:
 
-                motorBackRight.setTargetPosition((int) (-5 * COUNTS_PER_INCH));
-                motorBackLeft.setTargetPosition((int) (-5 * COUNTS_PER_INCH));
-                motorFrontRight.setTargetPosition((int) (-5 * COUNTS_PER_INCH));
-                motorFrontLeft.setTargetPosition((int) (-5 * COUNTS_PER_INCH));
+                motorBackRight.setTargetPosition((int) (5 * COUNTS_PER_INCH));
+                motorBackLeft.setTargetPosition((int) (5 * COUNTS_PER_INCH));
+                motorFrontRight.setTargetPosition((int) (5 * COUNTS_PER_INCH));
+                motorFrontLeft.setTargetPosition((int) (5 * COUNTS_PER_INCH));
                 motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                motorBackLeft.setPower(-.5);
-                motorBackRight.setPower(-.5);
-                motorFrontLeft.setPower(-.5);
-                motorFrontRight.setPower(-.5);
+                motorBackLeft.setPower(.5);
+                motorBackRight.setPower(.5);
+                motorFrontLeft.setPower(.5);
+                motorFrontRight.setPower(.5);
 
-                if (motorFrontRight.getCurrentPosition() <= (-4 * COUNTS_PER_INCH)) {
+                if (motorFrontRight.getCurrentPosition() >= (4 * COUNTS_PER_INCH)) {
                     state = state.three;
                     time.reset();
                     motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -201,13 +202,13 @@ public class ShootAndBlueBeacon extends OpMode {
                 motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                motorBackLeft.setPower(-.2);
-                motorBackRight.setPower(-.2);
-                motorFrontLeft.setPower(-.2);
-                motorFrontRight.setPower(-.2);
+                motorBackLeft.setPower(.2);
+                motorBackRight.setPower(.2);
+                motorFrontLeft.setPower(.2);
+                motorFrontRight.setPower(.2);
 
 
-                if (gyro.getHeading() >= 40) {
+                if (gyro.getHeading() <= 320 ) {
                     motorBackLeft.setPower(0);
                     motorBackRight.setPower(0);
                     motorFrontLeft.setPower(0);
@@ -249,7 +250,7 @@ public class ShootAndBlueBeacon extends OpMode {
                 motorFrontLeft.setPower(.3);
                 motorFrontRight.setPower(-.3);
 
-                if ((range1Cache[0] & 0xFF) >= 10) {
+                if ((range1Cache[0] & 0xFF) >= 13) {
                     state = state.five;
                     time.reset();
                     motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -279,10 +280,10 @@ public class ShootAndBlueBeacon extends OpMode {
                 motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-                motorBackLeft.setPower(-.13);
-                motorBackRight.setPower(-.13);
-                motorFrontLeft.setPower(.13);
-                motorFrontRight.setPower(.13);
+                motorBackLeft.setPower(.13);
+                motorBackRight.setPower(.13);
+                motorFrontLeft.setPower(-.13);
+                motorFrontRight.setPower(-.13);
 
 
                 if (line >= 0.02) {
@@ -312,11 +313,11 @@ public class ShootAndBlueBeacon extends OpMode {
             case six:
 
                 if (colorIsBlue()) {
-                    state = state.seven;
+                    state = state.eight;
                 }
 
                 if (colorIsRed()) {
-                    state = state.eight;
+                    state = state.seven;
                 }
 
 
@@ -334,10 +335,10 @@ public class ShootAndBlueBeacon extends OpMode {
                 break;
             case seven:
 
-                motorBackRight.setTargetPosition((int) (-1.5 * COUNTS_PER_INCH));
-                motorBackLeft.setTargetPosition((int) (-1.5 * COUNTS_PER_INCH));
-                motorFrontRight.setTargetPosition((int) (1.5 * COUNTS_PER_INCH));
-                motorFrontLeft.setTargetPosition((int) (1.5 * COUNTS_PER_INCH));
+                motorBackRight.setTargetPosition((int) (-2 * COUNTS_PER_INCH));
+                motorBackLeft.setTargetPosition((int) (-2 * COUNTS_PER_INCH));
+                motorFrontRight.setTargetPosition((int) (2 * COUNTS_PER_INCH));
+                motorFrontLeft.setTargetPosition((int) (2 * COUNTS_PER_INCH));
                 motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -348,7 +349,7 @@ public class ShootAndBlueBeacon extends OpMode {
                 motorFrontLeft.setPower(.13);
                 motorFrontRight.setPower(.13);
 
-                if (motorFrontRight.getCurrentPosition() >= (1.5 * COUNTS_PER_INCH)) {
+                if (motorFrontRight.getCurrentPosition() >= (2 * COUNTS_PER_INCH)) {
                     state = state.nine;
                     time.reset();
                     motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -372,10 +373,10 @@ public class ShootAndBlueBeacon extends OpMode {
             case eight:
 
 
-                motorBackRight.setTargetPosition((int) (2 * COUNTS_PER_INCH));
-                motorBackLeft.setTargetPosition((int) (2 * COUNTS_PER_INCH));
-                motorFrontRight.setTargetPosition((int) (-2 * COUNTS_PER_INCH));
-                motorFrontLeft.setTargetPosition((int) (-2 * COUNTS_PER_INCH));
+                motorBackRight.setTargetPosition((int) (1.5 * COUNTS_PER_INCH));
+                motorBackLeft.setTargetPosition((int) (1.5* COUNTS_PER_INCH));
+                motorFrontRight.setTargetPosition((int) (- 1.5 * COUNTS_PER_INCH));
+                motorFrontLeft.setTargetPosition((int) (-1.5 * COUNTS_PER_INCH));
                 motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -386,7 +387,7 @@ public class ShootAndBlueBeacon extends OpMode {
                 motorFrontLeft.setPower(-.13);
                 motorFrontRight.setPower(-.13);
 
-                if (motorBackRight.getCurrentPosition() >= (2 * COUNTS_PER_INCH)) {
+                if (motorBackRight.getCurrentPosition() >= (1.5 * COUNTS_PER_INCH)) {
                     time.reset();
                     state = State.nine;
                     motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -423,7 +424,7 @@ public class ShootAndBlueBeacon extends OpMode {
                 motorFrontLeft.setPower(-.2);
                 motorFrontRight.setPower(.2);
 
-                if (currentTime >= 1) {
+                if (currentTime >= 1.25) {
                     time.reset();
                     state = state.ten;
                     motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -457,7 +458,7 @@ public class ShootAndBlueBeacon extends OpMode {
                 motorFrontLeft.setPower(.3);
                 motorFrontRight.setPower(-.3);
 
-                if ((range1Cache[0] & 0xFF) >= 10) {
+                if ((range1Cache[0] & 0xFF) >= 13) {
                     state = state.thirteen;
                     time.reset();
                     motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -479,22 +480,24 @@ public class ShootAndBlueBeacon extends OpMode {
                 telemetry.update();
 
                 break;
+
+
             case thirteen:
-                motorBackRight.setTargetPosition((int) (-30 * COUNTS_PER_INCH));
-                motorBackLeft.setTargetPosition((int) (-30* COUNTS_PER_INCH));
-                motorFrontRight.setTargetPosition((int) (30 * COUNTS_PER_INCH));
-                motorFrontLeft.setTargetPosition((int) (30 * COUNTS_PER_INCH));
+                motorBackRight.setTargetPosition((int) (30 * COUNTS_PER_INCH));
+                motorBackLeft.setTargetPosition((int) (30* COUNTS_PER_INCH));
+                motorFrontRight.setTargetPosition((int) (-30 * COUNTS_PER_INCH));
+                motorFrontLeft.setTargetPosition((int) (-30 * COUNTS_PER_INCH));
                 motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                motorBackLeft.setPower(-.35);
-                motorBackRight.setPower(-.35);
-                motorFrontLeft.setPower(.35);
-                motorFrontRight.setPower(.35);
+                motorBackLeft.setPower(.35);
+                motorBackRight.setPower(.35);
+                motorFrontLeft.setPower(-.35);
+                motorFrontRight.setPower(-.35);
 
-                if (motorFrontRight.getCurrentPosition() >= (30 * COUNTS_PER_INCH)) {
+                if (motorFrontRight.getCurrentPosition() <= (-30 * COUNTS_PER_INCH)) {
                     state = state.fourteen;
                     time.reset();
                     motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -523,10 +526,10 @@ public class ShootAndBlueBeacon extends OpMode {
                 motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-                motorBackLeft.setPower(-.13);
-                motorBackRight.setPower(-.13);
-                motorFrontLeft.setPower(.13);
-                motorFrontRight.setPower(.13);
+                motorBackLeft.setPower(.13);
+                motorBackRight.setPower(.13);
+                motorFrontLeft.setPower(-.13);
+                motorFrontRight.setPower(-.13);
 
 
                 if (line >= 0.02) {
@@ -559,10 +562,10 @@ public class ShootAndBlueBeacon extends OpMode {
                 motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-                motorBackLeft.setPower(.13);
-                motorBackRight.setPower(.13);
-                motorFrontLeft.setPower(-.13);
-                motorFrontRight.setPower(-.13);
+                motorBackLeft.setPower(-.13);
+                motorBackRight.setPower(-.13);
+                motorFrontLeft.setPower(.13);
+                motorFrontRight.setPower(.13);
 
 
                 if (line >= 0.02) {
@@ -588,16 +591,15 @@ public class ShootAndBlueBeacon extends OpMode {
                 telemetry.update();
 
                 break;
-
             case sixteen:
 
 
                 if (colorIsBlue()) {
-                    state = state.seventeen;
+                    state = state.eighteen;
                 }
 
                 if (colorIsRed()) {
-                    state = state.eighteen;
+                    state = state.seventeen;
                 }
 
 
@@ -615,10 +617,10 @@ public class ShootAndBlueBeacon extends OpMode {
                 break;
             case seventeen:
 
-                motorBackRight.setTargetPosition((int) (-1.5 * COUNTS_PER_INCH));
-                motorBackLeft.setTargetPosition((int) (-1.5 * COUNTS_PER_INCH));
-                motorFrontRight.setTargetPosition((int) (1.5 * COUNTS_PER_INCH));
-                motorFrontLeft.setTargetPosition((int) (1.5 * COUNTS_PER_INCH));
+                motorBackRight.setTargetPosition((int) (-2 * COUNTS_PER_INCH));
+                motorBackLeft.setTargetPosition((int) (-2 * COUNTS_PER_INCH));
+                motorFrontRight.setTargetPosition((int) (2 * COUNTS_PER_INCH));
+                motorFrontLeft.setTargetPosition((int) (2 * COUNTS_PER_INCH));
                 motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -629,7 +631,7 @@ public class ShootAndBlueBeacon extends OpMode {
                 motorFrontLeft.setPower(.13);
                 motorFrontRight.setPower(.13);
 
-                if (motorFrontRight.getCurrentPosition() >= (1.5 * COUNTS_PER_INCH)) {
+                if (motorFrontRight.getCurrentPosition() >= (2 * COUNTS_PER_INCH)) {
                     state = state.twentynine;
                     time.reset();
                     motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -653,10 +655,10 @@ public class ShootAndBlueBeacon extends OpMode {
             case eighteen:
 
 
-                motorBackRight.setTargetPosition((int) (2 * COUNTS_PER_INCH));
-                motorBackLeft.setTargetPosition((int) (2 * COUNTS_PER_INCH));
-                motorFrontRight.setTargetPosition((int) (-2 * COUNTS_PER_INCH));
-                motorFrontLeft.setTargetPosition((int) (-2 * COUNTS_PER_INCH));
+                motorBackRight.setTargetPosition((int) (1.5 * COUNTS_PER_INCH));
+                motorBackLeft.setTargetPosition((int) (1.5* COUNTS_PER_INCH));
+                motorFrontRight.setTargetPosition((int) (-1.5 * COUNTS_PER_INCH));
+                motorFrontLeft.setTargetPosition((int) (-1.5 * COUNTS_PER_INCH));
                 motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -667,7 +669,7 @@ public class ShootAndBlueBeacon extends OpMode {
                 motorFrontLeft.setPower(-.13);
                 motorFrontRight.setPower(-.13);
 
-                if (motorBackRight.getCurrentPosition() >= (2 * COUNTS_PER_INCH)) {
+                if (motorBackRight.getCurrentPosition() >= (1.5 * COUNTS_PER_INCH)) {
                     time.reset();
                     state = State.nineteen;
                     motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -766,18 +768,18 @@ public class ShootAndBlueBeacon extends OpMode {
                 motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                motorBackLeft.setPower(-.35);
-                motorBackRight.setPower(-.35);
-                motorFrontLeft.setPower(-.35);
-                motorFrontRight.setPower(-.35);
+                motorBackLeft.setPower(.35);
+                motorBackRight.setPower(.35);
+                motorFrontLeft.setPower(.35);
+                motorFrontRight.setPower(.35);
 
 
-                if (gyro.getHeading() >= 165) {
+                if (gyro.getHeading() <= 185) {
                     motorBackLeft.setPower(0);
                     motorBackRight.setPower(0);
                     motorFrontLeft.setPower(0);
                     motorFrontRight.setPower(0);
-                    state = state.forty;
+                    state = state.fortyone;
                     time.reset();
                     motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -800,7 +802,7 @@ public class ShootAndBlueBeacon extends OpMode {
 
                 break;
 
-            case forty:
+            case fortyone:
 
 
                 motorBackRight.setTargetPosition((int) (4.13 * COUNTS_PER_INCH));
@@ -838,8 +840,6 @@ public class ShootAndBlueBeacon extends OpMode {
                 telemetry.update();
 
                 break;
-
-
 
             case twentythree:
                 shooter.setPower(1);
@@ -901,10 +901,10 @@ public class ShootAndBlueBeacon extends OpMode {
 
             case twentysix:
 
-                motorBackRight.setTargetPosition((int) (40* COUNTS_PER_INCH));
-                motorBackLeft.setTargetPosition((int) (-40 * COUNTS_PER_INCH));
-                motorFrontRight.setTargetPosition((int) (40 * COUNTS_PER_INCH));
-                motorFrontLeft.setTargetPosition((int) (-40 * COUNTS_PER_INCH));
+                motorBackRight.setTargetPosition((int) (30 * COUNTS_PER_INCH));
+                motorBackLeft.setTargetPosition((int) (-30 * COUNTS_PER_INCH));
+                motorFrontRight.setTargetPosition((int) (30 * COUNTS_PER_INCH));
+                motorFrontLeft.setTargetPosition((int) (-30 * COUNTS_PER_INCH));
                 motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -915,7 +915,7 @@ public class ShootAndBlueBeacon extends OpMode {
                 motorFrontLeft.setPower(-1);
                 motorFrontRight.setPower(1);
 
-                if (motorFrontRight.getCurrentPosition() >= (40 * COUNTS_PER_INCH)) {
+                if (motorFrontRight.getCurrentPosition() >= (30 * COUNTS_PER_INCH)) {
                     time.reset();
                     motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -934,6 +934,10 @@ public class ShootAndBlueBeacon extends OpMode {
                 telemetry.addData("BR", motorBackRight.getCurrentPosition());
                 telemetry.update();
 
+                break;
+            case twentyseven:
+                break;
+            case twentyeight:
                 break;
             case twentynine:
 
@@ -1011,18 +1015,18 @@ public class ShootAndBlueBeacon extends OpMode {
                 motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                motorBackLeft.setPower(-.35);
-                motorBackRight.setPower(-.35);
-                motorFrontLeft.setPower(-.35);
-                motorFrontRight.setPower(-.35);
+                motorBackLeft.setPower(.35);
+                motorBackRight.setPower(.35);
+                motorFrontLeft.setPower(.35);
+                motorFrontRight.setPower(.35);
 
 
-                if (gyro.getHeading() >= 165) {
+                if (gyro.getHeading() <= 185) {
                     motorBackLeft.setPower(0);
                     motorBackRight.setPower(0);
                     motorFrontLeft.setPower(0);
                     motorFrontRight.setPower(0);
-                    state = state.fortytwo;
+                    state = state.forty;
                     time.reset();
                     motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -1045,7 +1049,7 @@ public class ShootAndBlueBeacon extends OpMode {
 
                 break;
 
-            case fortytwo:
+            case forty:
 
 
                 motorBackRight.setTargetPosition((int) (4.13 * COUNTS_PER_INCH));
@@ -1083,7 +1087,8 @@ public class ShootAndBlueBeacon extends OpMode {
                 telemetry.update();
 
                 break;
-
+            case thirtytwo:
+                break;
             case thirtythree:
                 shooter.setPower(1);
 
@@ -1144,10 +1149,10 @@ public class ShootAndBlueBeacon extends OpMode {
 
             case thirtysix:
 
-                motorBackRight.setTargetPosition((int) (40 * COUNTS_PER_INCH));
-                motorBackLeft.setTargetPosition((int) (-40 * COUNTS_PER_INCH));
-                motorFrontRight.setTargetPosition((int) (40 * COUNTS_PER_INCH));
-                motorFrontLeft.setTargetPosition((int) (-40 * COUNTS_PER_INCH));
+                motorBackRight.setTargetPosition((int) (30 * COUNTS_PER_INCH));
+                motorBackLeft.setTargetPosition((int) (-30 * COUNTS_PER_INCH));
+                motorFrontRight.setTargetPosition((int) (30 * COUNTS_PER_INCH));
+                motorFrontLeft.setTargetPosition((int) (-30 * COUNTS_PER_INCH));
                 motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -1158,7 +1163,7 @@ public class ShootAndBlueBeacon extends OpMode {
                 motorFrontLeft.setPower(-1);
                 motorFrontRight.setPower(1);
 
-                if (motorFrontRight.getCurrentPosition() >= (40 * COUNTS_PER_INCH)) {
+                if (motorFrontRight.getCurrentPosition() >= (30 * COUNTS_PER_INCH)) {
                     time.reset();
                     motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -1180,6 +1185,12 @@ public class ShootAndBlueBeacon extends OpMode {
                 break;
 
 
+            case thirtyseven:
+                break;
+            case thirtyeight:
+                break;
+            case thirtynine:
+                break;
         }
     }
 
@@ -1189,7 +1200,6 @@ public class ShootAndBlueBeacon extends OpMode {
     }
 
     boolean colorIsRed() {
-
         if ((colorCcache[0] & 0xFF) == 10 ||
                 (colorCcache[0] & 0xFF) == 11) {
             return (true);
